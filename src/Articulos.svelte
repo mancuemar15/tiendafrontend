@@ -29,14 +29,15 @@
 <hr>
 
 <Articulo bind:articulo={articuloInsertar}>
-    <Boton tipo="insertar" bind:documento={articuloInsertar}/> 
+    <Boton tipo="insertar" documento={articuloInsertar}/> 
 </Articulo>
 <br>
 
 {#each articulosFiltrados as articulo}
-    <Articulo articulo/>
-    <Boton tipo="modificar" documento={articulo}/> 
-    <Boton tipo="eliminar" documento={articulo}/> 
+    <Articulo {articulo}>
+        <Boton tipo="modificar" documento={articulo}/> 
+        <Boton tipo="eliminar" documento={articulo}/> 
+    </Articulo>
     <br>
 {/each}
 
