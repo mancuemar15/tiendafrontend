@@ -1,19 +1,23 @@
 <script>
-    import {onMount} from "svelte";
+    import { getContext, onMount} from "svelte";
+    import { jsonData } from "./store.js";
     import Buscar from "./Buscar.svelte";
+    import Articulo from "./Articulo.svelte";
+    import Boton from "./Boton.svelte";
 
-    let data = [];
-    let patron = "Camisa";
+    let articuloInsertar = {};
+    let articulosFiltrados = [];
+    let patron = "";
+    const URL = getContext("URL");
 
     const getArticulos = async() => {
-        const response = await fetch('https://tiendabackend.fly.dev/api/articulos/');
-        data = await response.json();
-
+        const response = await fetch(URL.articulos);
+        $jsonData = await response.json();
     } 
 
     onMount(getArticulos);
 
-    $: articulosFiltrados = data.filter( articulo => RegExp(patron, "i").test(articulo.nombre));
+    $: articulosFiltrados = $jsonData.filter( articulo => RegExp(patron, "i").test(articulo.nombre));
 
 </script>
 
@@ -24,9 +28,16 @@
 
 <hr>
 
+<Articulo bind:articulo={articuloInsertar}>
+    <Boton tipo="insertar" bind:documento={articuloInsertar}/> 
+</Articulo>
+<br>
+
 {#each articulosFiltrados as articulo}
-    {articulo.nombre}<br>
-    {articulo.precio}<hr>
+    <Articulo articulo/>
+    <Boton tipo="modificar" documento={articulo}/> 
+    <Boton tipo="eliminar" documento={articulo}/> 
+    <br>
 {/each}
 
 <style>
