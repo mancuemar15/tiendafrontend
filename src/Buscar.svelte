@@ -2,4 +2,4 @@
     export let busqueda = '';
 </script>
 
-<input type="search" bind:value={busqueda}> {busqueda}
+<input type="search" bind:value={busqueda}>
